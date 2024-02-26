@@ -1,24 +1,39 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tick_tack_toe/app/routes/app_pages.dart';
+import 'package:tick_tack_toe/core/constants.dart';
+import 'package:tick_tack_toe/models/user.dart';
+import 'package:tick_tack_toe/services/auth.dart';
+import 'package:tick_tack_toe/services/storage_service.dart';
 
 class LoginController extends GetxController {
   //TODO: Implement LoginController
 
-  final usernameController =TextEditingController();
-  
+  StorageService storageService = StorageService();
+  final usernameController = TextEditingController();
+  var httpClient = Dio();
+  late UserResponse currentUser;
+
   @override
   void onInit() {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void login() async {
+    try {
+      var response = await httpClient
+          .post('${Constants.baseUrl}/user/add/:$usernameController');
+      if (response.statusCode == 200) {
+        currentUser = UserResponse.fromJson(response.data);
+      }
+      storageService.write("user", currentUser);
+      getBaseAuth(currentUser);
+      Get.offAndToNamed(Routes.SESSION);
+    } catch (error) {
+      print('Ошибка входа: $error');
+    }
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
 }

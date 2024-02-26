@@ -14,4 +14,8 @@ class StorageService extends GetxService {
   Future<void> write(String key, UserResponse user) async {
     await _storage.write(key: key, value: jsonEncode(user.toJson()));
   }
+
+  Future<void> writeBaseAuth(String key, String baseAuth) async {
+    await _storage.write(key: key, value: baseAuth);
+  }
 }

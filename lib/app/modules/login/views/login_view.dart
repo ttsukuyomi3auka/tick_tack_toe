@@ -5,7 +5,6 @@ import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
   const LoginView({Key? key}) : super(key: key);
-  
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,8 @@ class LoginView extends GetView<LoginController> {
             SizedBox(
               height: 20,
             ),
-            ElevatedButton(onPressed: () {}, child: Text('Войти')),
+            ElevatedButton(
+                onPressed: () => controller.login(), child: Text('Войти')),
           ],
         ),
       ),
