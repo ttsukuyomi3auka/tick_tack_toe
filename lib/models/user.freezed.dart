@@ -14,26 +14,26 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-UserResponce _$UserResponceFromJson(Map<String, dynamic> json) {
-  return _UserResponce.fromJson(json);
+UserResponse _$UserResponseFromJson(Map<String, dynamic> json) {
+  return _UserResponse.fromJson(json);
 }
 
 /// @nodoc
-mixin _$UserResponce {
+mixin _$UserResponse {
   String get private_key => throw _privateConstructorUsedError;
   User get user => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $UserResponceCopyWith<UserResponce> get copyWith =>
+  $UserResponseCopyWith<UserResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $UserResponceCopyWith<$Res> {
-  factory $UserResponceCopyWith(
-          UserResponce value, $Res Function(UserResponce) then) =
-      _$UserResponceCopyWithImpl<$Res, UserResponce>;
+abstract class $UserResponseCopyWith<$Res> {
+  factory $UserResponseCopyWith(
+          UserResponse value, $Res Function(UserResponse) then) =
+      _$UserResponseCopyWithImpl<$Res, UserResponse>;
   @useResult
   $Res call({String private_key, User user});
 
@@ -41,9 +41,9 @@ abstract class $UserResponceCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$UserResponceCopyWithImpl<$Res, $Val extends UserResponce>
-    implements $UserResponceCopyWith<$Res> {
-  _$UserResponceCopyWithImpl(this._value, this._then);
+class _$UserResponseCopyWithImpl<$Res, $Val extends UserResponse>
+    implements $UserResponseCopyWith<$Res> {
+  _$UserResponseCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -78,11 +78,11 @@ class _$UserResponceCopyWithImpl<$Res, $Val extends UserResponce>
 }
 
 /// @nodoc
-abstract class _$$UserResponceImplCopyWith<$Res>
-    implements $UserResponceCopyWith<$Res> {
-  factory _$$UserResponceImplCopyWith(
-          _$UserResponceImpl value, $Res Function(_$UserResponceImpl) then) =
-      __$$UserResponceImplCopyWithImpl<$Res>;
+abstract class _$$UserResponseImplCopyWith<$Res>
+    implements $UserResponseCopyWith<$Res> {
+  factory _$$UserResponseImplCopyWith(
+          _$UserResponseImpl value, $Res Function(_$UserResponseImpl) then) =
+      __$$UserResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String private_key, User user});
@@ -92,11 +92,11 @@ abstract class _$$UserResponceImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$UserResponceImplCopyWithImpl<$Res>
-    extends _$UserResponceCopyWithImpl<$Res, _$UserResponceImpl>
-    implements _$$UserResponceImplCopyWith<$Res> {
-  __$$UserResponceImplCopyWithImpl(
-      _$UserResponceImpl _value, $Res Function(_$UserResponceImpl) _then)
+class __$$UserResponseImplCopyWithImpl<$Res>
+    extends _$UserResponseCopyWithImpl<$Res, _$UserResponseImpl>
+    implements _$$UserResponseImplCopyWith<$Res> {
+  __$$UserResponseImplCopyWithImpl(
+      _$UserResponseImpl _value, $Res Function(_$UserResponseImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -105,7 +105,7 @@ class __$$UserResponceImplCopyWithImpl<$Res>
     Object? private_key = null,
     Object? user = null,
   }) {
-    return _then(_$UserResponceImpl(
+    return _then(_$UserResponseImpl(
       private_key: null == private_key
           ? _value.private_key
           : private_key // ignore: cast_nullable_to_non_nullable
@@ -120,11 +120,11 @@ class __$$UserResponceImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UserResponceImpl implements _UserResponce {
-  _$UserResponceImpl({required this.private_key, required this.user});
+class _$UserResponseImpl implements _UserResponse {
+  _$UserResponseImpl({required this.private_key, required this.user});
 
-  factory _$UserResponceImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UserResponceImplFromJson(json);
+  factory _$UserResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserResponseImplFromJson(json);
 
   @override
   final String private_key;
@@ -133,14 +133,14 @@ class _$UserResponceImpl implements _UserResponce {
 
   @override
   String toString() {
-    return 'UserResponce(private_key: $private_key, user: $user)';
+    return 'UserResponse(private_key: $private_key, user: $user)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UserResponceImpl &&
+            other is _$UserResponseImpl &&
             (identical(other.private_key, private_key) ||
                 other.private_key == private_key) &&
             (identical(other.user, user) || other.user == user));
@@ -153,24 +153,24 @@ class _$UserResponceImpl implements _UserResponce {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UserResponceImplCopyWith<_$UserResponceImpl> get copyWith =>
-      __$$UserResponceImplCopyWithImpl<_$UserResponceImpl>(this, _$identity);
+  _$$UserResponseImplCopyWith<_$UserResponseImpl> get copyWith =>
+      __$$UserResponseImplCopyWithImpl<_$UserResponseImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UserResponceImplToJson(
+    return _$$UserResponseImplToJson(
       this,
     );
   }
 }
 
-abstract class _UserResponce implements UserResponce {
-  factory _UserResponce(
+abstract class _UserResponse implements UserResponse {
+  factory _UserResponse(
       {required final String private_key,
-      required final User user}) = _$UserResponceImpl;
+      required final User user}) = _$UserResponseImpl;
 
-  factory _UserResponce.fromJson(Map<String, dynamic> json) =
-      _$UserResponceImpl.fromJson;
+  factory _UserResponse.fromJson(Map<String, dynamic> json) =
+      _$UserResponseImpl.fromJson;
 
   @override
   String get private_key;
@@ -178,7 +178,7 @@ abstract class _UserResponce implements UserResponce {
   User get user;
   @override
   @JsonKey(ignore: true)
-  _$$UserResponceImplCopyWith<_$UserResponceImpl> get copyWith =>
+  _$$UserResponseImplCopyWith<_$UserResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

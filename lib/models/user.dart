@@ -4,14 +4,14 @@ part 'user.freezed.dart';
 part 'user.g.dart';
 
 @freezed
-class UserResponce with _$UserResponce {
-  factory UserResponce({
+class UserResponse with _$UserResponse {
+  factory UserResponse({
     required String private_key,
     required User user,
-  }) = _UserResponce;
+  }) = _UserResponse;
 
-  factory UserResponce.fromJson(Map<String, dynamic> json) =>
-      _$UserResponceFromJson(json);
+  factory UserResponse.fromJson(Map<String, dynamic> json) =>
+      _$UserResponseFromJson(json);
 }
 
 @freezed

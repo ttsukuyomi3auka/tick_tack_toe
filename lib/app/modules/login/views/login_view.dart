@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:get/get.dart';
-import 'package:tick_tack_toe/controllers/login_controller.dart';
+import '../controllers/login_controller.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
-
-  LoginController loginController = Get.put(LoginController());
-  
+class LoginView extends GetView<LoginController> {
+  const LoginView({Key? key}) : super(key: key);
   
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login"),
+        title: const Text('Login'),
+        centerTitle: true,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -22,13 +20,13 @@ class LoginPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
-              controller: loginController.usernameController,
+              controller: controller.usernameController,
               decoration: InputDecoration(labelText: 'Никнейм'),
             ),
             SizedBox(
               height: 20,
             ),
-            ElevatedButton(onPressed: (){}, child: Text('Войти')),
+            ElevatedButton(onPressed: () {}, child: Text('Войти')),
           ],
         ),
       ),

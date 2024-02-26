@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tick_tack_toe/views/login.dart';
+import 'package:tick_tack_toe/app/modules/splash/views/splash_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,8 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: LoginPage(),
+      home: SplashView(),
     );
   }
 }
-

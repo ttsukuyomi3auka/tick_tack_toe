@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:tick_tack_toe/models/user.dart';
@@ -9,7 +11,7 @@ class StorageService extends GetxService {
     return await _storage.read(key: key);
   }
 
-  Future<void> write(UserResponce user) async {
-    await _storage.write(key: user.user.username, value: user.private_key);
+  Future<void> write(String key, UserResponse user) async {
+    await _storage.write(key: key, value: jsonEncode(user.toJson()));
   }
 }
