@@ -27,7 +27,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.SESSION,
-      page: () => const SessionView(),
+      page: () => SessionView(),
       binding: SessionBinding(),
     ),
   ];

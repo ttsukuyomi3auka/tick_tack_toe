@@ -27,7 +27,6 @@ class LoginController extends GetxController {
       if (response.statusCode == 200) {
         currentUser = UserResponse.fromJson(response.data);
         await storageService.write("user", currentUser);
-        print(await storageService.read("user"));
         getBaseAuth(currentUser);
         Get.offAndToNamed(Routes.SESSION);
       } else {
