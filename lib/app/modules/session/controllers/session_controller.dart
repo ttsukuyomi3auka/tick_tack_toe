@@ -14,7 +14,6 @@ class SessionController extends GetxController {
 
   RxList<String> sessions = <String>[].obs;
 
-
   @override
   void onInit() {
     super.onInit();
@@ -45,14 +44,31 @@ class SessionController extends GetxController {
   Future<void> getSessionById(String sessionId) async {
     try {
       var response = await httpClient.get('$baseUrl/session/get/$sessionId');
-      currentSession =SessionResponse.fromJson(response.data);
+      currentSession = SessionResponse.fromJson(response.data);
     } catch (e) {
       print(e);
     }
   }
 
   // PATCH /session/join/:ИДСессии
-  Future<void> joinSession(String sessionId) async {}
+  Future<void> joinSession(String sessionId) async {
+    String? baseAuth = await storageService.read('baseAuth');
+
+    if (baseAuth != null) {
+      var response = await httpClient.post('$baseUrl/session/join/$sessionId',
+          options: Options(headers: <String, String>{
+            'authorization': baseAuth,
+          }));
+      if (response.statusCode == 200) {
+        //нужно внести измениния в сессию
+      } else {
+        print("Не удалось подключиться");
+      }
+    } else {
+      // Обработка случая, когда baseAuth равен null
+      print('Ошибка: baseAuth равен null');
+    }
+  }
 
   // DELETE /session/leave
   Future<void> leaveSession() async {}

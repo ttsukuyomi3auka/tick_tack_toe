@@ -46,8 +46,32 @@ class SessionView extends GetView<SessionController> {
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       title: Text("Информация о сессии"),
-                                      content: Text(
-                                          "Имя сесии:${sessionController.currentSession.name}"),
+                                      actions: [
+                                        Center(
+                                            child: Column(
+                                          children: [
+                                            Text(
+                                                "Имя сессии:${sessionController.currentSession.name}"),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            ElevatedButton(
+                                                onPressed: () {
+                                                  if (sessionController
+                                                          .currentSession
+                                                          .guestName ==
+                                                      null) {
+                                                    sessionController
+                                                        .joinSession(
+                                                            sessionController
+                                                                .currentSession
+                                                                .id);
+                                                  }
+                                                },
+                                                child: Text("Подключиться")),
+                                          ],
+                                        ))
+                                      ],
                                     );
                                   });
                             } else {
