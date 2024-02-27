@@ -12,29 +12,20 @@ class SplashController extends GetxController {
   StorageService storageService = StorageService();
 
   @override
-  void onInit() async {
-    print("зашел в инит");
+  void onInit() async{
+    await Future.delayed(Duration(seconds: 3));
+    isLogin();
     super.onInit();
-    String? userData = await storageService.read("user");
+  }
 
-    if (userData == null || userData.isEmpty) {
-      print("1");
+  void isLogin() async {
+    String? userData = await storageService.read("user");
+    print(userData);
+    if (userData == null) {
       Get.offAndToNamed(Routes.LOGIN);
     } else {
-      print("2");
       getBaseAuth(UserResponse.fromJson(jsonDecode(userData)));
       Get.offAndToNamed(Routes.SESSION);
     }
   }
-
-  // @override
-  // void onReady() {
-  //   super.onReady();
-  //   print("ja v on ready");
-  // }
-
-  // @override
-  // void onClose() {
-  //   super.onClose();
-  // }
 }

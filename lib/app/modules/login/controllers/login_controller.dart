@@ -22,12 +22,12 @@ class LoginController extends GetxController {
 
   void login() async {
     try {
-      print('$baseUrl/user/add/:${usernameController.text}');
-      var response = await httpClient
-          .post('$baseUrl/user/add/:${usernameController.text}');
+      var response =
+          await httpClient.post('$baseUrl/user/add/${usernameController.text}');
       if (response.statusCode == 200) {
         currentUser = UserResponse.fromJson(response.data);
-        storageService.write("user", currentUser);
+        await storageService.write("user", currentUser);
+        print(await storageService.read("user"));
         getBaseAuth(currentUser);
         Get.offAndToNamed(Routes.SESSION);
       } else {

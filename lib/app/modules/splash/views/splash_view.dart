@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:tick_tack_toe/app/routes/app_pages.dart';
-
 import '../controllers/splash_controller.dart';
 
 class SplashView extends GetView<SplashController> {
@@ -15,11 +12,16 @@ class SplashView extends GetView<SplashController> {
           centerTitle: true,
         ),
         body: Center(
-            child: ElevatedButton(
-          onPressed: () {
-            Get.offAndToNamed(Routes.LOGIN);
-          },
-          child: Text("login"),
-        )));
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CircularProgressIndicator(),
+              SizedBox(
+                height: 20,
+              ),
+              Text("Загрузка...")
+            ],
+          ),
+        ));
   }
 }

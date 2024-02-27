@@ -17,7 +17,7 @@ class UserResponse with _$UserResponse {
 @freezed
 class User with _$User {
   factory User({
-    required String id_session,
+    required String? in_session,
     required String username,
   }) = _User;
 

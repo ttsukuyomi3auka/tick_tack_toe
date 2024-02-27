@@ -19,12 +19,12 @@ Map<String, dynamic> _$$UserResponseImplToJson(_$UserResponseImpl instance) =>
     };
 
 _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
-      id_session: json['id_session'] as String,
+      in_session: json['in_session'] as String?,
       username: json['username'] as String,
     );
 
 Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
     <String, dynamic>{
-      'id_session': instance.id_session,
+      'in_session': instance.in_session,
       'username': instance.username,
     };
