@@ -1,23 +1,34 @@
 import 'package:get/get.dart';
+import 'package:tick_tack_toe/models/session.dart';
 
 class SessionController extends GetxController {
   //TODO: Implement SessionController
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  // POST /session/create/:НазваниеСессии
+  Future<void> createSession(String sessionName) async {}
+
+  // PATCH /session/start
+  Future<void> startSession() async {}
+  
+  // GET /session/get
+  Future<List<String>> getSessionList() async {
+    return [""];
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
+  // GET /session/get/:ИДСессии
+  // Future<SessionResponse> getSessionById(String sessionId) async {
+  //   return;
+  // }
 
-  void increment() => count.value++;
+
+  // PATCH /session/join/:ИДСессии
+  Future<void> joinSession(String sessionId) async {}
+
+  // DELETE /session/leave
+  Future<void> leaveSession() async {}
 }

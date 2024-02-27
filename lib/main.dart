@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tick_tack_toe/app/modules/splash/views/splash_view.dart';
 import 'package:tick_tack_toe/app/routes/app_pages.dart';
+import 'package:tick_tack_toe/services/storage_service.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'Tic-Tac-Toe',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -24,4 +24,7 @@ class MyApp extends StatelessWidget {
       getPages: AppPages.routes,
     );
   }
+}
+Future<void> initServices() async {
+  await Get.putAsync(() async => StorageService());
 }

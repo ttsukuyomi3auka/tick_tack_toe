@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,14 +22,17 @@ class LoginController extends GetxController {
 
   void login() async {
     try {
+      print('$baseUrl/user/add/:${usernameController.text}');
       var response = await httpClient
-          .post('${Constants.baseUrl}/user/add/:$usernameController');
+          .post('$baseUrl/user/add/:${usernameController.text}');
       if (response.statusCode == 200) {
         currentUser = UserResponse.fromJson(response.data);
+        storageService.write("user", currentUser);
+        getBaseAuth(currentUser);
+        Get.offAndToNamed(Routes.SESSION);
+      } else {
+        Exception("Не удалось войти");
       }
-      storageService.write("user", currentUser);
-      getBaseAuth(currentUser);
-      Get.offAndToNamed(Routes.SESSION);
     } catch (error) {
       print('Ошибка входа: $error');
     }
