@@ -18,4 +18,8 @@ class StorageService extends GetxService {
   Future<void> writeBaseAuth(String key, String baseAuth) async {
     await storage.write(key: key, value: baseAuth);
   }
+
+  Future<void> delete(String key) async {
+    await storage.delete(key: key);
+  }
 }

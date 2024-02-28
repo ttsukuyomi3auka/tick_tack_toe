@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 
 const String baseUrl = 'https://ttt.bulbaman.me';
 

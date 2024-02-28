@@ -1,7 +1,7 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
+import 'package:flutter_close_app/flutter_close_app.dart';
 import 'package:get/get.dart';
+import 'package:tick_tack_toe/app/routes/app_pages.dart';
 import 'package:tick_tack_toe/core/constants.dart';
 import 'package:tick_tack_toe/models/session.dart';
 import 'package:tick_tack_toe/services/storage_service.dart';
@@ -68,6 +68,12 @@ class SessionController extends GetxController {
       // Обработка случая, когда baseAuth равен null
       print('Ошибка: baseAuth равен null');
     }
+  }
+
+  Future<void> logout() async {
+    await storageService.delete("user");
+    await storageService.delete("baseAuth");
+    Get.offAllNamed(Routes.LOGIN);
   }
 
   // DELETE /session/leave
