@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/session_controller.dart';
@@ -50,18 +52,19 @@ class SessionView extends GetView<SessionController> {
                                       child: Column(
                                         children: [
                                           Text(
-                                              "Имя сессии:${sessionController.currentSession.name}"),
+                                              "Имя сессии: ${sessionController.currentSession.value.name}"),
                                           SizedBox(
                                             height: 10,
                                           ),
-                                          if (controller
-                                                  .currentSession.hostName ==
+                                          if (controller.currentSession.value
+                                                  .hostName ==
                                               controller.currentUser.value.user
                                                   .username)
                                             ElevatedButton(
                                                 onPressed: () {
                                                   if (sessionController
                                                           .currentSession
+                                                          .value
                                                           .guestName !=
                                                       null) {
                                                     sessionController
@@ -77,11 +80,14 @@ class SessionView extends GetView<SessionController> {
                                               onPressed: () {
                                                 if (sessionController
                                                         .currentSession
+                                                        .value
                                                         .guestName ==
                                                     null) {
                                                   sessionController.joinSession(
                                                       sessionController
-                                                          .currentSession.id);
+                                                          .currentSession
+                                                          .value
+                                                          .id);
                                                 }
                                               },
                                               child: Text("Подключиться"),
@@ -106,7 +112,11 @@ class SessionView extends GetView<SessionController> {
                     ),
                   ),
                   ElevatedButton(
-                      onPressed: () {}, child: Text("Создать сессию")),
+                      onPressed: () {
+                        controller.createSession(
+                            controller.currentSession.value.name);
+                      },
+                      child: Text("Создать сессию")),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Column(

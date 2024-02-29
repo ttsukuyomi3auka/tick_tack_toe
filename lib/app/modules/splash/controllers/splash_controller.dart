@@ -7,7 +7,6 @@ import 'package:tick_tack_toe/services/auth.dart';
 import 'package:tick_tack_toe/services/storage_service.dart';
 
 class SplashController extends GetxController {
-  //TODO: Implement SplashController
 
   StorageService storageService = StorageService();
 
@@ -20,7 +19,6 @@ class SplashController extends GetxController {
 
   void isLogin() async {
     String? userData = await storageService.read("user");
-    print(userData);
     if (userData == null) {
       Get.offAndToNamed(Routes.LOGIN);
     } else {

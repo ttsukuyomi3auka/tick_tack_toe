@@ -27,6 +27,27 @@ class NetworkServices extends GetxController {
     }
   }
 
+  Future<bool> createSession(String sessionName) async {
+    try {
+      var response =
+          await httpClient.post('$baseUrl/session/create/$sessionName',
+              options: Options(headers: <String, String>{
+                'authorization': await storageService.read('baseAuth') ?? '',
+              }));
+      if (response.statusCode == 200) {
+        await storageService.writeSessionResponse(
+            "session", SessionResponse.fromJson(response.data));
+        
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   Future<List<dynamic>?> getSessions() async {
     try {
       var response = await httpClient.get('$baseUrl/session/get');
@@ -61,21 +82,15 @@ class NetworkServices extends GetxController {
 
   //переписать baseAuth так как сделано в функции ниже
   Future<bool> joinSession(String sessionId) async {
-    String? baseAuth = await storageService.read('baseAuth');
-    if (baseAuth != null) {
-      var response = await httpClient.post('$baseUrl/session/join/$sessionId',
-          options: Options(headers: <String, String>{
-            'authorization': baseAuth,
-          }));
-      if (response.statusCode == 200) {
-        //нужно внести измениния в сессию
-        return true;
-      } else {
-        print("Не удалось подключиться");
-        return false;
-      }
+    var response = await httpClient.post('$baseUrl/session/join/$sessionId',
+        options: Options(headers: <String, String>{
+          'authorization': await storageService.read('baseAuth') ?? '',
+        }));
+    if (response.statusCode == 200) {
+      //нужно внести измениния в сессию
+      return true;
     } else {
-      print('Ошибка: baseAuth равен null');
+      print("Не удалось подключиться");
       return false;
     }
   }
@@ -102,5 +117,4 @@ class NetworkServices extends GetxController {
       return false;
     }
   }
-   
 }

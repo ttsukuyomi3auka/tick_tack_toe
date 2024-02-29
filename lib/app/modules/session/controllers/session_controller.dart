@@ -10,18 +10,19 @@ class SessionController extends GetxController {
   StorageService storageService = StorageService();
   NetworkServices networkServices = NetworkServices();
   RxList<String> sessions = <String>[].obs;
-  SessionResponse currentSession = SessionResponse();
+  Rx<SessionResponse> currentSession = SessionResponse().obs;
   final newUserNicknameController = TextEditingController();
   Rx<UserResponse> currentUser = UserResponse(user: User()).obs;
 
-  
   @override
   void onInit() async {
     updateLocalData();
     super.onInit();
   }
-  Future<void> updateLocalData() async{
-    currentUser.value= await storageService.readUserResponse('user');
+
+  Future<void> updateLocalData() async {
+    currentUser.value = await storageService.readUserResponse('user');
+    currentSession.value = await storageService.readSessionResponse('session');
   }
 
   // POST /session/create/:НазваниеСессии
@@ -43,7 +44,7 @@ class SessionController extends GetxController {
   Future<void> getSessionById(String sessionId) async {
     var data = await networkServices.getSessionById(sessionId);
     if (data != null) {
-      currentSession = data;
+      currentSession.value = data;
     } else {
       Get.snackbar(
           "Ошибка", "Не получилось получить данные о конкретной сессии",
@@ -66,14 +67,14 @@ class SessionController extends GetxController {
     Get.offAllNamed(Routes.LOGIN);
   }
 
-  Future<void> changeNickname(newNickname) async{
-    if (await networkServices.changeNickname(newNickname))
-    {
-        updateLocalData();
-        return Get.back();
+  Future<void> changeNickname(newNickname) async {
+    if (await networkServices.changeNickname(newNickname)) {
+      updateLocalData();
+      return Get.back();
+    } else {
+      Get.snackbar("Ошибка", "Не удалось сменить никнейм",
+          backgroundColor: Colors.red);
     }
-    else {Get.snackbar("Ошибка", "Не удалось сменить никнейм",
-          backgroundColor: Colors.red);}
   }
 
   // DELETE /session/leave
