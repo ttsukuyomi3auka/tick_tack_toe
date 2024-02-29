@@ -8,7 +8,7 @@ part of 'user.dart';
 
 _$UserResponseImpl _$$UserResponseImplFromJson(Map<String, dynamic> json) =>
     _$UserResponseImpl(
-      private_key: json['private_key'] as String,
+      private_key: json['private_key'] as String? ?? "",
       user: User.fromJson(json['user'] as Map<String, dynamic>),
     );
 
@@ -19,8 +19,8 @@ Map<String, dynamic> _$$UserResponseImplToJson(_$UserResponseImpl instance) =>
     };
 
 _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
-      in_session: json['in_session'] as String?,
-      username: json['username'] as String,
+      in_session: json['in_session'] as String? ?? null,
+      username: json['username'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>

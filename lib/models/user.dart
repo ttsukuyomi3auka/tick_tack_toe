@@ -6,7 +6,7 @@ part 'user.g.dart';
 @freezed
 class UserResponse with _$UserResponse {
   factory UserResponse({
-    required String private_key,
+    @Default("") String private_key,
     required User user,
   }) = _UserResponse;
 
@@ -17,8 +17,8 @@ class UserResponse with _$UserResponse {
 @freezed
 class User with _$User {
   factory User({
-    required String? in_session,
-    required String username,
+    @Default(null) String? in_session,
+    @Default('') String username,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

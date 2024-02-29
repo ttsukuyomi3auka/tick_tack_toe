@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/game/bindings/game_binding.dart';
+import '../modules/game/views/game_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/session/bindings/session_binding.dart';
@@ -29,6 +31,11 @@ class AppPages {
       name: _Paths.SESSION,
       page: () => SessionView(),
       binding: SessionBinding(),
+    ),
+    GetPage(
+      name: _Paths.GAME,
+      page: () => const GameView(),
+      binding: GameBinding(),
     ),
   ];
 }

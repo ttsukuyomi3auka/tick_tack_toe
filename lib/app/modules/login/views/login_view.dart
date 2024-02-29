@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
-  const LoginView({Key? key}) : super(key: key);
+  const LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,19 +14,19 @@ class LoginView extends GetView<LoginController> {
         centerTitle: true,
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
               controller: controller.usernameController,
-              decoration: InputDecoration(labelText: 'Никнейм'),
+              decoration: const InputDecoration(labelText: 'Никнейм'),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             ElevatedButton(
-                onPressed: () => controller.login(), child: Text('Войти')),
+                onPressed: () => controller.login(), child: const Text('Войти')),
           ],
         ),
       ),

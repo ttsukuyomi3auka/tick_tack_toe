@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tick_tack_toe/app/routes/app_pages.dart';
+import 'package:tick_tack_toe/services/network_services.dart';
 import 'package:tick_tack_toe/services/storage_service.dart';
 
 void main() async {
@@ -29,5 +30,5 @@ class MyApp extends StatelessWidget {
 
 Future<void> initServices() async {
   await Get.putAsync(() async => StorageService());
-  //network сервис дописать и тут инициализировать
+  await Get.putAsync(() async => NetworkServices());
 }

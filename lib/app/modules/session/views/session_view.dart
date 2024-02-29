@@ -37,48 +37,44 @@ class SessionView extends GetView<SessionController> {
                               color: Color.fromARGB(255, 61, 0, 204),
                             ),
                           ),
-                          onTap: () {
-                            sessionController.getSessionById(
+                          onTap: () async {
+                            await sessionController.getSessionById(
                                 sessionController.sessions[index]);
-                            if (sessionController.currentSession != null) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text("Информация о сессии"),
-                                    actions: [
-                                      Center(
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                                "Имя сессии:${sessionController.currentSession.name}"),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            //тута проверку кто я хост или залетный типок
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                if (sessionController
-                                                        .currentSession
-                                                        .guestName ==
-                                                    null) {
-                                                  sessionController.joinSession(
-                                                      sessionController
-                                                          .currentSession.id);
-                                                }
-                                              },
-                                              child: Text("Подключиться"),
-                                            ),
-                                          ],
-                                        ),
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Информация о сессии"),
+                                  actions: [
+                                    Center(
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                              "Имя сессии:${sessionController.currentSession.name}"),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          //тута проверку кто я хост или залетный типок
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              if (sessionController
+                                                      .currentSession
+                                                      .guestName ==
+                                                  null) {
+                                                sessionController.joinSession(
+                                                    sessionController
+                                                        .currentSession.id);
+                                              }
+                                            },
+                                            child: Text("Подключиться"),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  );
-                                },
-                              );
-                            } else {
-                              print(sessionController.currentSession);
-                            }
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           },
                         );
                       },

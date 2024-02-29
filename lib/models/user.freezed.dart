@@ -121,12 +121,13 @@ class __$$UserResponseImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$UserResponseImpl implements _UserResponse {
-  _$UserResponseImpl({required this.private_key, required this.user});
+  _$UserResponseImpl({this.private_key = "", required this.user});
 
   factory _$UserResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserResponseImplFromJson(json);
 
   @override
+  @JsonKey()
   final String private_key;
   @override
   final User user;
@@ -165,9 +166,8 @@ class _$UserResponseImpl implements _UserResponse {
 }
 
 abstract class _UserResponse implements UserResponse {
-  factory _UserResponse(
-      {required final String private_key,
-      required final User user}) = _$UserResponseImpl;
+  factory _UserResponse({final String private_key, required final User user}) =
+      _$UserResponseImpl;
 
   factory _UserResponse.fromJson(Map<String, dynamic> json) =
       _$UserResponseImpl.fromJson;
@@ -272,14 +272,16 @@ class __$$UserImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$UserImpl implements _User {
-  _$UserImpl({required this.in_session, required this.username});
+  _$UserImpl({this.in_session = null, this.username = ''});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
 
   @override
+  @JsonKey()
   final String? in_session;
   @override
+  @JsonKey()
   final String username;
 
   @override
@@ -317,9 +319,7 @@ class _$UserImpl implements _User {
 }
 
 abstract class _User implements User {
-  factory _User(
-      {required final String? in_session,
-      required final String username}) = _$UserImpl;
+  factory _User({final String? in_session, final String username}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
