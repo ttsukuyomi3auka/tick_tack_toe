@@ -59,6 +59,7 @@ class NetworkServices extends GetxController {
     }
   }
 
+  //переписать baseAuth так как сделано в функции ниже
   Future<bool> joinSession(String sessionId) async {
     String? baseAuth = await storageService.read('baseAuth');
     if (baseAuth != null) {
@@ -78,4 +79,28 @@ class NetworkServices extends GetxController {
       return false;
     }
   }
+
+  Future<bool> changeNickname(String newNickname) async {
+    try {
+      var response = await httpClient.patch('$baseUrl/user/update',
+          data: {"username": newNickname},
+          options: Options(headers: <String, String>{
+            'authorization': await storageService.read('baseAuth') ?? '',
+          }));
+      if (response.statusCode == 200) {
+        var data = await storageService.readUserResponse('user');
+        var updateUserResponse = UserResponse(
+            private_key: data.private_key, user: User.fromJson(response.data));
+        await storageService.writeUserResponse("user", updateUserResponse);
+        return true;
+      } else {
+        print(response.statusCode);
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+   
 }

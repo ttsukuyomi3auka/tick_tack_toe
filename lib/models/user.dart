@@ -12,6 +12,7 @@ class UserResponse with _$UserResponse {
 
   factory UserResponse.fromJson(Map<String, dynamic> json) =>
       _$UserResponseFromJson(json);
+  factory UserResponse.withUser(User newUser) => UserResponse(user: newUser);
 }
 
 @freezed

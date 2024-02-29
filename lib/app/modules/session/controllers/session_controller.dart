@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tick_tack_toe/app/routes/app_pages.dart';
 import 'package:tick_tack_toe/models/session.dart';
+import 'package:tick_tack_toe/models/user.dart';
 import 'package:tick_tack_toe/services/network_services.dart';
 import 'package:tick_tack_toe/services/storage_service.dart';
 
@@ -10,6 +11,18 @@ class SessionController extends GetxController {
   NetworkServices networkServices = NetworkServices();
   RxList<String> sessions = <String>[].obs;
   SessionResponse currentSession = SessionResponse();
+  final newUserNicknameController = TextEditingController();
+  Rx<UserResponse> currentUser = UserResponse(user: User()).obs;
+
+  
+  @override
+  void onInit() async {
+    updateLocalData();
+    super.onInit();
+  }
+  Future<void> updateLocalData() async{
+    currentUser.value= await storageService.readUserResponse('user');
+  }
 
   // POST /session/create/:НазваниеСессии
   Future<void> createSession(String sessionName) async {}
@@ -51,6 +64,16 @@ class SessionController extends GetxController {
     await storageService.delete("user");
     await storageService.delete("baseAuth");
     Get.offAllNamed(Routes.LOGIN);
+  }
+
+  Future<void> changeNickname(newNickname) async{
+    if (await networkServices.changeNickname(newNickname))
+    {
+        updateLocalData();
+        return Get.back();
+    }
+    else {Get.snackbar("Ошибка", "Не удалось сменить никнейм",
+          backgroundColor: Colors.red);}
   }
 
   // DELETE /session/leave

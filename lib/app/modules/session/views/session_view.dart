@@ -54,20 +54,38 @@ class SessionView extends GetView<SessionController> {
                                           SizedBox(
                                             height: 10,
                                           ),
-                                          //тута проверку кто я хост или залетный типок
-                                          ElevatedButton(
-                                            onPressed: () {
-                                              if (sessionController
-                                                      .currentSession
-                                                      .guestName ==
-                                                  null) {
-                                                sessionController.joinSession(
+                                          if (controller
+                                                  .currentSession.hostName ==
+                                              controller.currentUser.value.user
+                                                  .username)
+                                            ElevatedButton(
+                                                onPressed: () {
+                                                  if (sessionController
+                                                          .currentSession
+                                                          .guestName !=
+                                                      null) {
                                                     sessionController
-                                                        .currentSession.id);
-                                              }
-                                            },
-                                            child: Text("Подключиться"),
-                                          ),
+                                                        .startSession();
+                                                  } else {
+                                                    Get.snackbar("Ошибка",
+                                                        "Нет второго игрока");
+                                                  }
+                                                },
+                                                child: Text("Запустить игру"))
+                                          else
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                if (sessionController
+                                                        .currentSession
+                                                        .guestName ==
+                                                    null) {
+                                                  sessionController.joinSession(
+                                                      sessionController
+                                                          .currentSession.id);
+                                                }
+                                              },
+                                              child: Text("Подключиться"),
+                                            ),
                                         ],
                                       ),
                                     ),
@@ -85,6 +103,61 @@ class SessionView extends GetView<SessionController> {
                     child: ElevatedButton(
                       onPressed: () => sessionController.logout(),
                       child: Text("Сменить пользователя"),
+                    ),
+                  ),
+                  ElevatedButton(
+                      onPressed: () {}, child: Text("Создать сессию")),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Column(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () async {
+                            await showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Сменить никнейм"),
+                                  content: TextFormField(
+                                    controller:
+                                        controller.newUserNicknameController,
+                                    decoration: InputDecoration(
+                                        labelText: "Новый никнейм"),
+                                  ),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Get.back();
+                                      },
+                                      child: Text("Отмена"),
+                                    ),
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          controller.changeNickname(controller
+                                              .newUserNicknameController.text);
+                                        },
+                                        child: Text("Сохранить")),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: Text("Сменить никнейм"),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Obx(() => Text(
+                                "Никнейм: ${sessionController.currentUser.value.user.username}",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )),
+                        ),
+                      ],
                     ),
                   ),
                 ],
