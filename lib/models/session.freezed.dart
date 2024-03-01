@@ -21,10 +21,10 @@ SessionResponse _$SessionResponseFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$SessionResponse {
   Map<String, dynamic>? get board => throw _privateConstructorUsedError;
-  GameState get gameState => throw _privateConstructorUsedError;
-  String? get guestName => throw _privateConstructorUsedError;
+  GameState get game_state => throw _privateConstructorUsedError;
+  String? get guest_name => throw _privateConstructorUsedError;
   List<String> get history => throw _privateConstructorUsedError;
-  String get hostName => throw _privateConstructorUsedError;
+  String get host_name => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
 
@@ -42,10 +42,10 @@ abstract class $SessionResponseCopyWith<$Res> {
   @useResult
   $Res call(
       {Map<String, dynamic>? board,
-      GameState gameState,
-      String? guestName,
+      GameState game_state,
+      String? guest_name,
       List<String> history,
-      String hostName,
+      String host_name,
       String id,
       String name});
 }
@@ -64,10 +64,10 @@ class _$SessionResponseCopyWithImpl<$Res, $Val extends SessionResponse>
   @override
   $Res call({
     Object? board = freezed,
-    Object? gameState = null,
-    Object? guestName = freezed,
+    Object? game_state = null,
+    Object? guest_name = freezed,
     Object? history = null,
-    Object? hostName = null,
+    Object? host_name = null,
     Object? id = null,
     Object? name = null,
   }) {
@@ -76,21 +76,21 @@ class _$SessionResponseCopyWithImpl<$Res, $Val extends SessionResponse>
           ? _value.board
           : board // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
-      gameState: null == gameState
-          ? _value.gameState
-          : gameState // ignore: cast_nullable_to_non_nullable
+      game_state: null == game_state
+          ? _value.game_state
+          : game_state // ignore: cast_nullable_to_non_nullable
               as GameState,
-      guestName: freezed == guestName
-          ? _value.guestName
-          : guestName // ignore: cast_nullable_to_non_nullable
+      guest_name: freezed == guest_name
+          ? _value.guest_name
+          : guest_name // ignore: cast_nullable_to_non_nullable
               as String?,
       history: null == history
           ? _value.history
           : history // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      hostName: null == hostName
-          ? _value.hostName
-          : hostName // ignore: cast_nullable_to_non_nullable
+      host_name: null == host_name
+          ? _value.host_name
+          : host_name // ignore: cast_nullable_to_non_nullable
               as String,
       id: null == id
           ? _value.id
@@ -114,10 +114,10 @@ abstract class _$$SessionResponseImplCopyWith<$Res>
   @useResult
   $Res call(
       {Map<String, dynamic>? board,
-      GameState gameState,
-      String? guestName,
+      GameState game_state,
+      String? guest_name,
       List<String> history,
-      String hostName,
+      String host_name,
       String id,
       String name});
 }
@@ -134,10 +134,10 @@ class __$$SessionResponseImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? board = freezed,
-    Object? gameState = null,
-    Object? guestName = freezed,
+    Object? game_state = null,
+    Object? guest_name = freezed,
     Object? history = null,
-    Object? hostName = null,
+    Object? host_name = null,
     Object? id = null,
     Object? name = null,
   }) {
@@ -146,21 +146,21 @@ class __$$SessionResponseImplCopyWithImpl<$Res>
           ? _value._board
           : board // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
-      null == gameState
-          ? _value.gameState
-          : gameState // ignore: cast_nullable_to_non_nullable
+      null == game_state
+          ? _value.game_state
+          : game_state // ignore: cast_nullable_to_non_nullable
               as GameState,
-      freezed == guestName
-          ? _value.guestName
-          : guestName // ignore: cast_nullable_to_non_nullable
+      freezed == guest_name
+          ? _value.guest_name
+          : guest_name // ignore: cast_nullable_to_non_nullable
               as String?,
       null == history
           ? _value._history
           : history // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      null == hostName
-          ? _value.hostName
-          : hostName // ignore: cast_nullable_to_non_nullable
+      null == host_name
+          ? _value.host_name
+          : host_name // ignore: cast_nullable_to_non_nullable
               as String,
       null == id
           ? _value.id
@@ -179,10 +179,10 @@ class __$$SessionResponseImplCopyWithImpl<$Res>
 class _$SessionResponseImpl implements _SessionResponse {
   _$SessionResponseImpl(
       [final Map<String, dynamic>? board,
-      this.gameState = GameState.NotStarted,
-      this.guestName,
+      this.game_state = GameState.NotStarted,
+      this.guest_name,
       final List<String> history = const [],
-      this.hostName = "",
+      this.host_name = '',
       this.id = "",
       this.name = ""])
       : _board = board,
@@ -203,9 +203,9 @@ class _$SessionResponseImpl implements _SessionResponse {
 
   @override
   @JsonKey()
-  final GameState gameState;
+  final GameState game_state;
   @override
-  final String? guestName;
+  final String? guest_name;
   final List<String> _history;
   @override
   @JsonKey()
@@ -217,7 +217,7 @@ class _$SessionResponseImpl implements _SessionResponse {
 
   @override
   @JsonKey()
-  final String hostName;
+  final String host_name;
   @override
   @JsonKey()
   final String id;
@@ -227,7 +227,7 @@ class _$SessionResponseImpl implements _SessionResponse {
 
   @override
   String toString() {
-    return 'SessionResponse(board: $board, gameState: $gameState, guestName: $guestName, history: $history, hostName: $hostName, id: $id, name: $name)';
+    return 'SessionResponse(board: $board, game_state: $game_state, guest_name: $guest_name, history: $history, host_name: $host_name, id: $id, name: $name)';
   }
 
   @override
@@ -236,13 +236,13 @@ class _$SessionResponseImpl implements _SessionResponse {
         (other.runtimeType == runtimeType &&
             other is _$SessionResponseImpl &&
             const DeepCollectionEquality().equals(other._board, _board) &&
-            (identical(other.gameState, gameState) ||
-                other.gameState == gameState) &&
-            (identical(other.guestName, guestName) ||
-                other.guestName == guestName) &&
+            (identical(other.game_state, game_state) ||
+                other.game_state == game_state) &&
+            (identical(other.guest_name, guest_name) ||
+                other.guest_name == guest_name) &&
             const DeepCollectionEquality().equals(other._history, _history) &&
-            (identical(other.hostName, hostName) ||
-                other.hostName == hostName) &&
+            (identical(other.host_name, host_name) ||
+                other.host_name == host_name) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name));
   }
@@ -252,10 +252,10 @@ class _$SessionResponseImpl implements _SessionResponse {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_board),
-      gameState,
-      guestName,
+      game_state,
+      guest_name,
       const DeepCollectionEquality().hash(_history),
-      hostName,
+      host_name,
       id,
       name);
 
@@ -277,10 +277,10 @@ class _$SessionResponseImpl implements _SessionResponse {
 abstract class _SessionResponse implements SessionResponse {
   factory _SessionResponse(
       [final Map<String, dynamic>? board,
-      final GameState gameState,
-      final String? guestName,
+      final GameState game_state,
+      final String? guest_name,
       final List<String> history,
-      final String hostName,
+      final String host_name,
       final String id,
       final String name]) = _$SessionResponseImpl;
 
@@ -290,13 +290,13 @@ abstract class _SessionResponse implements SessionResponse {
   @override
   Map<String, dynamic>? get board;
   @override
-  GameState get gameState;
+  GameState get game_state;
   @override
-  String? get guestName;
+  String? get guest_name;
   @override
   List<String> get history;
   @override
-  String get hostName;
+  String get host_name;
   @override
   String get id;
   @override

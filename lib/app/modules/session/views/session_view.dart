@@ -1,15 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/session_controller.dart';
 
 class SessionView extends GetView<SessionController> {
-  SessionView({super.key});
+  SessionView({Key? key}) : super(key: key);
 
-  SessionController sessionController = Get.put(SessionController());
+  final SessionController sessionController = Get.put(SessionController());
 
   @override
   Widget build(BuildContext context) {
@@ -27,81 +25,97 @@ class SessionView extends GetView<SessionController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true, // Добавлено shrinkWrap
-                      physics: ClampingScrollPhysics(), // Добавлено physics
-                      itemCount: sessionController.sessions.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(
-                            "Сессия ${index + 1}",
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 61, 0, 204),
+                    child: Obx(
+                      () => ListView.builder(
+                        shrinkWrap: true,
+                        physics: ClampingScrollPhysics(),
+                        itemCount: sessionController.shortSession.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(
+                              "Сессия ${index + 1}: ${sessionController.shortSession.value[index].name}",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 61, 0, 204),
+                              ),
                             ),
-                          ),
-                          onTap: () async {
-                            await sessionController.getSessionById(
-                                sessionController.sessions[index]);
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("Информация о сессии"),
-                                  actions: [
-                                    Center(
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                              "Имя сессии: ${sessionController.currentSession.value.name}"),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          if (controller.currentSession.value
-                                                  .hostName ==
-                                              controller.currentUser.value.user
-                                                  .username)
-                                            ElevatedButton(
-                                                onPressed: () {
-                                                  if (sessionController
-                                                          .currentSession
-                                                          .value
-                                                          .guestName !=
-                                                      null) {
-                                                    sessionController
-                                                        .startSession();
-                                                  } else {
-                                                    Get.snackbar("Ошибка",
-                                                        "Нет второго игрока");
-                                                  }
-                                                },
-                                                child: Text("Запустить игру"))
-                                          else
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                if (sessionController
-                                                        .currentSession
-                                                        .value
-                                                        .guestName ==
-                                                    null) {
-                                                  sessionController.joinSession(
-                                                      sessionController
-                                                          .currentSession
-                                                          .value
-                                                          .id);
-                                                }
-                                              },
-                                              child: Text("Подключиться"),
+                            subtitle: Text(
+                              "Хост: ${sessionController.shortSession.value[index].host_name}",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 61, 0, 204),
+                              ),
+                            ),
+                            onTap: () async {
+                              await sessionController.getSessionById(
+                                  sessionController.shortSession[index].id);
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Информация о сессии"),
+                                    actions: [
+                                      Center(
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              "Имя сессии: ${sessionController.currentSession.value.name}",
                                             ),
-                                        ],
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Obx(() {
+                                              if (sessionController
+                                                      .currentSession
+                                                      .value
+                                                      .host_name ==
+                                                  sessionController.currentUser
+                                                      .value.user.username) {
+                                                return ElevatedButton(
+                                                  onPressed: () {
+                                                    if (sessionController
+                                                            .currentSession
+                                                            .value
+                                                            .guest_name !=
+                                                        null) {
+                                                      sessionController
+                                                          .startSession();
+                                                    } else {
+                                                      Get.snackbar("Ошибка",
+                                                          "Нет второго игрока");
+                                                    }
+                                                  },
+                                                  child: Text("Запустить игру"),
+                                                );
+                                              } else {
+                                                return ElevatedButton(
+                                                  onPressed: () {
+                                                    if (sessionController
+                                                            .currentSession
+                                                            .value
+                                                            .guest_name ==
+                                                        null) {
+                                                      sessionController
+                                                          .joinSession(
+                                                              sessionController
+                                                                  .currentSession
+                                                                  .value
+                                                                  .id);
+                                                    }
+                                                  },
+                                                  child: Text("Подключиться"),
+                                                );
+                                              }
+                                            }),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                        );
-                      },
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ),
                   Padding(
@@ -112,9 +126,35 @@ class SessionView extends GetView<SessionController> {
                     ),
                   ),
                   ElevatedButton(
-                      onPressed: () {
-                        controller.createSession(
-                            controller.currentSession.value.name);
+                      onPressed: () async {
+                        await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Создать сессию"),
+                                content: TextFormField(
+                                  controller:
+                                      sessionController.sessionnameController,
+                                  decoration: InputDecoration(
+                                      labelText: "Название сессии"),
+                                ),
+                                actions: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    child: Text("Отмена"),
+                                  ),
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        sessionController.createSession(
+                                            sessionController
+                                                .sessionnameController.text);
+                                      },
+                                      child: Text("Создать")),
+                                ],
+                              );
+                            });
                       },
                       child: Text("Создать сессию")),
                   Align(
@@ -129,8 +169,8 @@ class SessionView extends GetView<SessionController> {
                                 return AlertDialog(
                                   title: Text("Сменить никнейм"),
                                   content: TextFormField(
-                                    controller:
-                                        controller.newUserNicknameController,
+                                    controller: sessionController
+                                        .newUserNicknameController,
                                     decoration: InputDecoration(
                                         labelText: "Новый никнейм"),
                                   ),
@@ -143,8 +183,10 @@ class SessionView extends GetView<SessionController> {
                                     ),
                                     ElevatedButton(
                                         onPressed: () {
-                                          controller.changeNickname(controller
-                                              .newUserNicknameController.text);
+                                          sessionController.changeNickname(
+                                              sessionController
+                                                  .newUserNicknameController
+                                                  .text);
                                         },
                                         child: Text("Сохранить")),
                                   ],

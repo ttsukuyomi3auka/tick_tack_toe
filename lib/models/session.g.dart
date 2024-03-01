@@ -10,12 +10,12 @@ _$SessionResponseImpl _$$SessionResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$SessionResponseImpl(
       json['board'] as Map<String, dynamic>?,
-      $enumDecodeNullable(_$GameStateEnumMap, json['gameState']) ??
+      $enumDecodeNullable(_$GameStateEnumMap, json['game_state']) ??
           GameState.NotStarted,
-      json['guestName'] as String?,
+      json['guest_name'] as String?,
       (json['history'] as List<dynamic>?)?.map((e) => e as String).toList() ??
           const [],
-      json['hostName'] as String? ?? "",
+      json['host_name'] as String? ?? '',
       json['id'] as String? ?? "",
       json['name'] as String? ?? "",
     );
@@ -24,10 +24,10 @@ Map<String, dynamic> _$$SessionResponseImplToJson(
         _$SessionResponseImpl instance) =>
     <String, dynamic>{
       'board': instance.board,
-      'gameState': _$GameStateEnumMap[instance.gameState]!,
-      'guestName': instance.guestName,
+      'game_state': _$GameStateEnumMap[instance.game_state]!,
+      'guest_name': instance.guest_name,
       'history': instance.history,
-      'hostName': instance.hostName,
+      'host_name': instance.host_name,
       'id': instance.id,
       'name': instance.name,
     };

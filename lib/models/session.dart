@@ -9,10 +9,10 @@ class SessionResponse with _$SessionResponse {
 
   factory SessionResponse([
     Map<String,dynamic>? board,
-    @Default(GameState.NotStarted) GameState gameState,
-    String? guestName,
+    @Default(GameState.NotStarted) GameState game_state,
+    String? guest_name,
     @Default([]) List<String> history,
-    @Default("") String hostName,
+    @Default('') String host_name,
     @Default("") String id,
     @Default("") String name,
 

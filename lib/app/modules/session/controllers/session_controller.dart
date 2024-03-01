@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tick_tack_toe/app/routes/app_pages.dart';
 import 'package:tick_tack_toe/models/session.dart';
+import 'package:tick_tack_toe/models/short_session.dart';
 import 'package:tick_tack_toe/models/user.dart';
 import 'package:tick_tack_toe/services/network_services.dart';
 import 'package:tick_tack_toe/services/storage_service.dart';
@@ -9,9 +10,10 @@ import 'package:tick_tack_toe/services/storage_service.dart';
 class SessionController extends GetxController {
   StorageService storageService = StorageService();
   NetworkServices networkServices = NetworkServices();
-  RxList<String> sessions = <String>[].obs;
   Rx<SessionResponse> currentSession = SessionResponse().obs;
+  RxList<ShortSession> shortSession = <ShortSession>[].obs;
   final newUserNicknameController = TextEditingController();
+  final sessionnameController = TextEditingController();
   Rx<UserResponse> currentUser = UserResponse(user: User()).obs;
 
   @override
@@ -26,16 +28,22 @@ class SessionController extends GetxController {
   }
 
   // POST /session/create/:НазваниеСессии
-  Future<void> createSession(String sessionName) async {}
+  Future<void> createSession(String sessionName) async {
+    if (await networkServices.createSession(sessionName)) {
+      updateLocalData();
+      Get.back();
+    } else {
+      Get.snackbar("Ошибка", "Не удалось создать сессию",
+          backgroundColor: Colors.red);
+    }
+  }
 
   // PATCH /session/start
   Future<void> startSession() async {}
 
   Future<void> getSessions() async {
-    List<dynamic>? sessionsData = await networkServices.getSessions();
-    if (sessionsData != null) {
-      sessions.assignAll(sessionsData.cast<String>());
-    } else {
+    shortSession.assignAll(await networkServices.getSessions() ?? []);
+    if (shortSession.isEmpty) {
       Get.snackbar("Ошибка", "Не получилось получить сессии",
           backgroundColor: Colors.red);
     }
@@ -43,6 +51,7 @@ class SessionController extends GetxController {
 
   Future<void> getSessionById(String sessionId) async {
     var data = await networkServices.getSessionById(sessionId);
+    print(data);
     if (data != null) {
       currentSession.value = data;
     } else {
@@ -62,9 +71,14 @@ class SessionController extends GetxController {
   }
 
   Future<void> logout() async {
-    await storageService.delete("user");
-    await storageService.delete("baseAuth");
-    Get.offAllNamed(Routes.LOGIN);
+    if (await networkServices.deleteUser()) {
+      await storageService.delete("user");
+      await storageService.delete("baseAuth");
+      Get.offAllNamed(Routes.LOGIN);
+    } else {
+      Get.snackbar("Ошибка", "Не удается сменить пользователя",
+          backgroundColor: Colors.red);
+    }
   }
 
   Future<void> changeNickname(newNickname) async {

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:tick_tack_toe/core/constants.dart';
 import 'package:tick_tack_toe/models/session.dart';
+import 'package:tick_tack_toe/models/short_session.dart';
 import 'package:tick_tack_toe/models/user.dart';
 import 'package:tick_tack_toe/services/auth.dart';
 import 'package:tick_tack_toe/services/storage_service.dart';
@@ -27,8 +28,30 @@ class NetworkServices extends GetxController {
     }
   }
 
+  Future<bool> deleteUser() async {
+    try {
+      var response = await httpClient.delete('$baseUrl/user/delete',
+          data: await storageService.readUserResponse('user'),
+          options: Options(headers: <String, String>{
+            'authorization': await storageService.read('baseAuth') ?? '',
+          }));
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        print(response.statusCode);
+        return true;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   Future<bool> createSession(String sessionName) async {
     try {
+      print(await storageService.read('baseAuth'));
+      print(sessionName);
+      print('$baseUrl/session/create/$sessionName');
       var response =
           await httpClient.post('$baseUrl/session/create/$sessionName',
               options: Options(headers: <String, String>{
@@ -37,7 +60,6 @@ class NetworkServices extends GetxController {
       if (response.statusCode == 200) {
         await storageService.writeSessionResponse(
             "session", SessionResponse.fromJson(response.data));
-        
         return true;
       } else {
         return false;
@@ -48,12 +70,15 @@ class NetworkServices extends GetxController {
     }
   }
 
-  Future<List<dynamic>?> getSessions() async {
+  Future<List<ShortSession>?> getSessions() async {
     try {
-      var response = await httpClient.get('$baseUrl/session/get');
+      var response = await httpClient.get('$baseUrl/session/get_all');
       if (response.statusCode == 200) {
-        List<dynamic> sessionsData = response.data;
-        return sessionsData;
+        List<Map<String, dynamic>> sessionsData = List.castFrom(response.data);
+        List<ShortSession> sessionsList =
+            sessionsData.map((data) => ShortSession.fromJson(data)).toList();
+
+        return sessionsList;
       } else {
         return null;
       }

@@ -9,10 +9,6 @@ class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-        centerTitle: true,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -26,7 +22,8 @@ class LoginView extends GetView<LoginController> {
               height: 20,
             ),
             ElevatedButton(
-                onPressed: () => controller.login(), child: const Text('Войти')),
+                onPressed: () => controller.login(),
+                child: const Text('Войти')),
           ],
         ),
       ),
