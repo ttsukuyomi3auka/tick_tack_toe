@@ -1,14 +1,24 @@
 
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 const String baseUrl = 'https://ttt.bulbaman.me';
 
 
 enum GameState {
+  @JsonValue("NotStarted")
   NotStarted,
+  
+  @JsonValue("Ongoing")
   Ongoing,
+  
+  @JsonValue("XWon")
   XWon,
+  
+  @JsonValue("OWon")
   OWon,
-  Draw;
-
+  
+  @JsonValue("Draw")
+  Draw
 }
 enum XOState {
   x,

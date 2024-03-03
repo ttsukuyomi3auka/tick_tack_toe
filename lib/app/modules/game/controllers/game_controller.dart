@@ -1,23 +1,20 @@
 import 'package:get/get.dart';
+import 'package:tick_tack_toe/models/session.dart';
+import 'package:tick_tack_toe/services/network_services.dart';
+import 'package:tick_tack_toe/services/storage_service.dart';
 
 class GameController extends GetxController {
-  //TODO: Implement GameController
+  StorageService get storageService => Get.find<StorageService>();
+  NetworkServices get networkServices => Get.find<NetworkServices>();
+  Rx<SessionResponse> currentSession = SessionResponse().obs;
 
-  final count = 0.obs;
   @override
   void onInit() {
+    updateLocalData();
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  Future<void> updateLocalData() async {
+    currentSession.value = await storageService.readSessionResponse('session');
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

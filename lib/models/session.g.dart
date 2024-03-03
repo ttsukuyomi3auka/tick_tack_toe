@@ -24,7 +24,7 @@ Map<String, dynamic> _$$SessionResponseImplToJson(
         _$SessionResponseImpl instance) =>
     <String, dynamic>{
       'board': instance.board,
-      'game_state': _$GameStateEnumMap[instance.game_state]!,
+      'game_state': _$GameStateEnumMap[instance.gameState]!,
       'guest_name': instance.guest_name,
       'history': instance.history,
       'host_name': instance.host_name,

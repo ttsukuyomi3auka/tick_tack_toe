@@ -10,7 +10,7 @@ class GameView extends GetView<GameController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('GameView'),
+        title: Obx(() => Text("${controller.currentSession.value.host_name} VS ${controller.currentSession.value.guest_name}")),
         centerTitle: true,
       ),
       body: const Center(

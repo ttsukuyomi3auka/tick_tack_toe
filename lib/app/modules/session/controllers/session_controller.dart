@@ -17,17 +17,18 @@ class SessionController extends GetxController {
   Rx<UserResponse> currentUser = UserResponse(user: User()).obs;
 
   @override
-  void onInit() async {
+  void onInit(){
     updateLocalData();
+    getSessions();
     super.onInit();
   }
 
   Future<void> updateLocalData() async {
     currentUser.value = await storageService.readUserResponse('user');
     currentSession.value = await storageService.readSessionResponse('session');
+    await getSessions();
   }
 
-  // POST /session/create/:НазваниеСессии
   Future<void> createSession(String sessionName) async {
     if (await networkServices.createSession(sessionName)) {
       updateLocalData();
@@ -38,8 +39,15 @@ class SessionController extends GetxController {
     }
   }
 
-  // PATCH /session/start
-  Future<void> startSession() async {}
+  Future<void> startSession(String sessionId) async {
+    if (await networkServices.startSession(sessionId)) {
+      updateLocalData();
+      Get.offAndToNamed(Routes.GAME);
+    } else {
+      Get.snackbar("Ошибка", "Не удалось запустить игру",
+          backgroundColor: Colors.red);
+    }
+  }
 
   Future<void> getSessions() async {
     shortSession.assignAll(await networkServices.getSessions() ?? []);
@@ -51,7 +59,6 @@ class SessionController extends GetxController {
 
   Future<void> getSessionById(String sessionId) async {
     var data = await networkServices.getSessionById(sessionId);
-    print(data);
     if (data != null) {
       currentSession.value = data;
     } else {
@@ -63,6 +70,7 @@ class SessionController extends GetxController {
 
   Future<void> joinSession(String sessionId) async {
     if (await networkServices.joinSession(sessionId)) {
+      updateLocalData();
       Get.offAndToNamed(Routes.GAME);
     } else {
       Get.snackbar("Ошибка", "Не удалось подключиться",
@@ -90,9 +98,4 @@ class SessionController extends GetxController {
           backgroundColor: Colors.red);
     }
   }
-
-  // DELETE /session/leave
-  Future<void> leaveSession() async {}
-
-  // PATCH /user/update сменить никнейм кнопочка
 }

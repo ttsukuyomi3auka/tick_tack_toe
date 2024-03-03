@@ -49,17 +49,19 @@ class NetworkServices extends GetxController {
 
   Future<bool> createSession(String sessionName) async {
     try {
-      print(await storageService.read('baseAuth'));
-      print(sessionName);
-      print('$baseUrl/session/create/$sessionName');
       var response =
           await httpClient.post('$baseUrl/session/create/$sessionName',
               options: Options(headers: <String, String>{
                 'authorization': await storageService.read('baseAuth') ?? '',
               }));
       if (response.statusCode == 200) {
-        await storageService.writeSessionResponse(
-            "session", SessionResponse.fromJson(response.data));
+        var responseSession = SessionResponse.fromJson(response.data);
+        await storageService.writeSessionResponse("session", responseSession);
+        var data = await storageService.readUserResponse("user");
+        var updateUserResponse = UserResponse(
+            user: User(
+                in_session: responseSession.id, username: data.user.username));
+        await storageService.writeUserResponse("user", updateUserResponse);
         return true;
       } else {
         return false;
@@ -105,17 +107,36 @@ class NetworkServices extends GetxController {
     }
   }
 
-  //переписать baseAuth так как сделано в функции ниже
   Future<bool> joinSession(String sessionId) async {
-    var response = await httpClient.post('$baseUrl/session/join/$sessionId',
+    var response = await httpClient.patch('$baseUrl/session/join/$sessionId',
         options: Options(headers: <String, String>{
           'authorization': await storageService.read('baseAuth') ?? '',
         }));
     if (response.statusCode == 200) {
-      //нужно внести измениния в сессию
+      await storageService.writeSessionResponse(
+          'session', SessionResponse.fromJson(response.data));
+      var data = await storageService.readUserResponse("user");
+      var updateUserResponse = UserResponse(
+          user: User(in_session: sessionId, username: data.user.username));
+      await storageService.writeUserResponse("user", updateUserResponse);
       return true;
     } else {
       print("Не удалось подключиться");
+      return false;
+    }
+  }
+
+  Future<bool> startSession(String sessionId) async {
+    var response = await httpClient.patch('$baseUrl/session/start/$sessionId',
+        options: Options(headers: <String, String>{
+          'authorization': await storageService.read('baseAuth') ?? '',
+        }));
+    if (response.statusCode == 200) {
+      await storageService.writeSessionResponse(
+          'session', SessionResponse.fromJson(response.data));
+      return true;
+    } else {
+      print("Не удалось запустить игру");
       return false;
     }
   }
