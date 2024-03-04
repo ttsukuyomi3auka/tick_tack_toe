@@ -59,6 +59,7 @@ class NetworkServices extends GetxController {
         await storageService.writeSessionResponse("session", responseSession);
         var data = await storageService.readUserResponse("user");
         var updateUserResponse = UserResponse(
+            private_key: data.private_key,
             user: User(
                 in_session: responseSession.id, username: data.user.username));
         await storageService.writeUserResponse("user", updateUserResponse);
@@ -108,22 +109,37 @@ class NetworkServices extends GetxController {
   }
 
   Future<bool> joinSession(String sessionId) async {
-    var response = await httpClient.patch('$baseUrl/session/join/$sessionId',
-        options: Options(headers: <String, String>{
-          'authorization': await storageService.read('baseAuth') ?? '',
-        }));
-    if (response.statusCode == 200) {
-      await storageService.writeSessionResponse(
-          'session', SessionResponse.fromJson(response.data));
-      var data = await storageService.readUserResponse("user");
-      var updateUserResponse = UserResponse(
-          user: User(in_session: sessionId, username: data.user.username));
-      await storageService.writeUserResponse("user", updateUserResponse);
-      return true;
-    } else {
-      print("Не удалось подключиться");
-      return false;
+    try {
+      var baseAuth = await storageService.read('baseAuth') ?? '';
+      var response = await httpClient.patch('$baseUrl/session/join/$sessionId',
+          options:
+              Options(headers: <String, String>{'authorization': baseAuth}));
+
+      if (response.statusCode == 200) {
+        var sessionData = response.data;
+        if (sessionData != null) {
+          await storageService.writeSessionResponse(
+              'session', SessionResponse.fromJson(sessionData));
+
+          var userData = await storageService.readUserResponse("user");
+          if (userData != null) {
+            var updateUserResponse = UserResponse(
+                private_key: userData.private_key,
+                user: User(
+                    in_session: sessionId, username: userData.user.username));
+
+            await storageService.writeUserResponse("user", updateUserResponse);
+            return true;
+          }
+        }
+      } else {
+        print('Не удалось подключиться. Код ошибки: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Ошибка: $e');
     }
+
+    return false;
   }
 
   Future<bool> startSession(String sessionId) async {
@@ -160,6 +176,32 @@ class NetworkServices extends GetxController {
       }
     } catch (e) {
       print(e);
+      return false;
+    }
+  }
+
+  Future<bool> leaveSession(who) async {
+    try {
+      var response = await httpClient.delete('$baseUrl/user/update',
+          options: Options(headers: <String, String>{
+            'authorization': await storageService.read('baseAuth') ?? '',
+          }));
+      if (response.statusCode == 200) {
+        if (who == 1) {
+          await storageService.delete('session');
+        }
+        var data = await storageService.readUserResponse('user');
+        var updateUser = UserResponse(
+            private_key: data.private_key,
+            user: User(in_session: null, username: data.user.username));
+        await storageService.writeUserResponse('user', updateUser);
+        return true;
+      } else {
+        print("Код ошибки: ${response.statusCode}");
+        return false;
+      }
+    } catch (e) {
+      print("Ошибка: $e");
       return false;
     }
   }

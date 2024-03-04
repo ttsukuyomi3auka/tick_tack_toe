@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../controllers/session_controller.dart';
 
 class SessionView extends GetView<SessionController> {
-  SessionView({Key? key}) : super(key: key);
+  SessionView({super.key});
 
   final SessionController sessionController = Get.put(SessionController());
 
@@ -92,15 +92,27 @@ class SessionView extends GetView<SessionController> {
                                             return ElevatedButton(
                                               onPressed: () {
                                                 if (sessionController
-                                                        .currentSession
-                                                        .value
-                                                        .guest_name ==
-                                                    null) {
+                                                            .currentSession
+                                                            .value
+                                                            .guest_name ==
+                                                        null ||
+                                                    sessionController
+                                                            .currentSession
+                                                            .value
+                                                            .guest_name ==
+                                                        sessionController
+                                                            .currentUser
+                                                            .value
+                                                            .user
+                                                            .username) {
                                                   sessionController.joinSession(
                                                       sessionController
                                                           .currentSession
                                                           .value
                                                           .id);
+                                                } else {
+                                                  Get.snackbar(
+                                                      "Ошибка", "Лобби занято");
                                                 }
                                               },
                                               child: Text("Подключиться"),

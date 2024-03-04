@@ -17,14 +17,19 @@ class SplashController extends GetxController {
   }
 
   void isLogin() async {
-    String? userData = await storageService.read("user");
+    var userData = await storageService.readUserResponse("user");
     print(userData);
     if (userData == null) {
       Get.offAndToNamed(Routes.LOGIN);
     } else {
-      getBaseAuth(UserResponse.fromJson(jsonDecode(userData)));
-      print(await storageService.read('baseAuth'));
-      Get.offAndToNamed(Routes.SESSION);
+      if (userData.user.in_session == null) {
+        getBaseAuth(userData);
+        print(await storageService.read('baseAuth'));
+        Get.offAndToNamed(Routes.SESSION);
+      } else {
+        //поменять это после тестов на гейм
+        Get.offAndToNamed(Routes.SESSION);
+      }
     }
   }
 }
