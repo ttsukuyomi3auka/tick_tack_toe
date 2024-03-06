@@ -20,6 +20,19 @@ class GameView extends GetView<GameController> {
             const SizedBox(
               height: 20,
             ),
+            // Center(
+            //   child: SizedBox(
+            //     height: Get.width * .8,
+            //     width: Get.width * .8,
+            //     child: GridView.builder(
+            //       shrinkWrap: true,
+            //       physics: const NeverScrollableScrollPhysics(),
+            //       itemCount: 9,
+            //       itemBuilder: //ТУТ ВИДЖЕТ  ,
+            //       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            //           crossAxisCount: 3),
+            //     ),
+            //   ),),
             ElevatedButton(
               onPressed: () {
                 if (controller.currentSession.value.host_name ==

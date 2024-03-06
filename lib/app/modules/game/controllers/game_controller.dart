@@ -15,7 +15,7 @@ class GameController extends GetxController {
 
   @override
   void onInit() async {
-    updateLocalData();
+    await updateLocalData();
     print(currentSession.value);
     super.onInit();
   }
@@ -30,7 +30,7 @@ class GameController extends GetxController {
       updateLocalData();
       Get.offAndToNamed(Routes.SESSION);
     } else {
-      Get.snackbar("Ошибка", "Не удалось сменить никнейм",
+      Get.snackbar("Ошибка", "Не удалось выйти",
           backgroundColor: Colors.red);
     }
   }

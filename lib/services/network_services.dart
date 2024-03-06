@@ -120,6 +120,8 @@ class NetworkServices extends GetxController {
         if (sessionData != null) {
           await storageService.writeSessionResponse(
               'session', SessionResponse.fromJson(sessionData));
+          print(sessionData);
+          print(await storageService.readSessionResponse('session'));
 
           var userData = await storageService.readUserResponse("user");
           if (userData != null) {
@@ -129,6 +131,7 @@ class NetworkServices extends GetxController {
                     in_session: sessionId, username: userData.user.username));
 
             await storageService.writeUserResponse("user", updateUserResponse);
+            print(await storageService.readUserResponse('user'));
             return true;
           }
         }
