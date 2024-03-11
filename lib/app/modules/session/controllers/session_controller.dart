@@ -39,8 +39,8 @@ class SessionController extends GetxController {
     }
   }
 
-  Future<void> startSession(String sessionId) async {
-    if (await networkServices.startSession(sessionId)) {
+  Future<void> startSession() async {
+    if (await networkServices.startSession()) {
       updateLocalData();
       Get.offAndToNamed(Routes.GAME);
     } else {

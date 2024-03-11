@@ -8,16 +8,62 @@ import 'package:tick_tack_toe/services/network_services.dart';
 import 'package:tick_tack_toe/services/storage_service.dart';
 
 class GameController extends GetxController {
-  StorageService get storageService => Get.find<StorageService>();
-  NetworkServices get networkServices => Get.find<NetworkServices>();
+  final StorageService storageService = Get.find<StorageService>();
+  final NetworkServices networkServices = Get.find<NetworkServices>();
   Rx<SessionResponse> currentSession = SessionResponse().obs;
   Rx<UserResponse> currentUser = UserResponse(user: User()).obs;
+  RxMap<String, dynamic> board = <String, dynamic>{}.obs;
+  RxString currentPlayerSymbol = 'X'.obs;
 
   @override
   void onInit() async {
     await updateLocalData();
+    initBoard();
     print(currentSession.value);
     super.onInit();
+  }
+
+  void initBoard() {
+    board.value = currentSession.value.board!;
+  }
+
+  Future<void> updateFields(int row, int col) async {
+    print(2);
+    if (currentSession.value.gameState != GameState.Ongoing) {
+      Get.snackbar("Ошибка", "Game State:${currentSession.value.gameState}",
+          backgroundColor: Colors.red);
+    }
+    print(3);
+    if (board.isEmpty || board['row$row'][col] == 'E') {
+      print(4);
+      await move(row, col);
+      if (currentSession.value.gameState != GameState.Ongoing) {
+        Get.snackbar("Ошибка", "Game State:${currentSession.value.gameState}",
+            backgroundColor: Colors.red);
+      }
+      changePlayerMove();
+
+      // Обновление значения в ячейке на текущий символ (X или O)
+      board['row$row'][col] = currentPlayerSymbol.value;
+
+      drawXO(row, col);
+    }
+  }
+
+  void changePlayerMove() {
+    currentPlayerSymbol.value = (currentPlayerSymbol.value == 'X') ? 'O' : 'X';
+  }
+
+  void drawXO(int row, int col) {
+    String xoSymbol = currentPlayerSymbol.value;
+    board['row$row'][col] = xoSymbol;
+  }
+
+  Future<void> move(int row, int col) async {
+    if (await networkServices.move(row, col)) {
+      updateLocalData();
+      initBoard();
+    }
   }
 
   Future<void> updateLocalData() async {
@@ -30,22 +76,7 @@ class GameController extends GetxController {
       updateLocalData();
       Get.offAndToNamed(Routes.SESSION);
     } else {
-      Get.snackbar("Ошибка", "Не удалось выйти",
-          backgroundColor: Colors.red);
+      Get.snackbar("Ошибка", "Не удалось выйти", backgroundColor: Colors.red);
     }
   }
-  void onCellTapped(int index) {
-    // Проверяем, что игра не завершена и ячейка пуста
-    if (currentSession.value.gameState == GameState.Ongoing &&
-        getCellValue(index) == "") {
-      // Отправляем запрос на сервер о сделанном ходе
-    }
-  }
-
-  // Метод для получения значения для отображения в ячейке
-  String getCellValue(int index) {
-    // Получаем значение из текущего состояния игры
-    return currentSession.value.board?[index] ?? "";
-  }
-
 }

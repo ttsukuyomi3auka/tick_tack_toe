@@ -145,8 +145,8 @@ class NetworkServices extends GetxController {
     return false;
   }
 
-  Future<bool> startSession(String sessionId) async {
-    var response = await httpClient.patch('$baseUrl/session/start/$sessionId',
+  Future<bool> startSession() async {
+    var response = await httpClient.patch('$baseUrl/session/start',
         options: Options(headers: <String, String>{
           'authorization': await storageService.read('baseAuth') ?? '',
         }));
@@ -172,6 +172,30 @@ class NetworkServices extends GetxController {
         var updateUserResponse = UserResponse(
             private_key: data.private_key, user: User.fromJson(response.data));
         await storageService.writeUserResponse("user", updateUserResponse);
+        return true;
+      } else {
+        print(response.statusCode);
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> move(int row, int col) async {
+    try {
+      var response = await httpClient.patch('$baseUrl/session/move',
+          data: {
+            "row": row,
+            "col": col,
+          },
+          options: Options(headers: <String, String>{
+            'authorization': await storageService.read('baseAuth') ?? '',
+          }));
+      if (response.statusCode == 200) {
+        await storageService.writeSessionResponse(
+            'session', SessionResponse.fromJson(response.data));
         return true;
       } else {
         print(response.statusCode);

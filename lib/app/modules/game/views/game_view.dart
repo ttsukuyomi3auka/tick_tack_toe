@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:tick_tack_toe/app/modules/game/controllers/game_controller.dart';
 
 class GameView extends GetView<GameController> {
-  const GameView({super.key});
+  const GameView({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,22 +17,34 @@ class GameView extends GetView<GameController> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            for (int i = 0; i < 3; i++)
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                for (int j = 0; j < 3; j++)
+                  GestureDetector(
+                    onTap: () {
+                      print(1);
+                      controller.updateFields(i, j);
+                    },
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                      ),
+                      child: Center(
+                        child: Obx(() {
+                          return Text(
+                            controller.board['row$i'][j],
+                            style: const TextStyle(fontSize: 24),
+                          );
+                        }),
+                      ),
+                    ),
+                  ),
+              ]),
             const SizedBox(
-              height: 20,
+              height: 50,
             ),
-            // Center(
-            //   child: SizedBox(
-            //     height: Get.width * .8,
-            //     width: Get.width * .8,
-            //     child: GridView.builder(
-            //       shrinkWrap: true,
-            //       physics: const NeverScrollableScrollPhysics(),
-            //       itemCount: 9,
-            //       itemBuilder: //ТУТ ВИДЖЕТ  ,
-            //       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            //           crossAxisCount: 3),
-            //     ),
-            //   ),),
             ElevatedButton(
               onPressed: () {
                 if (controller.currentSession.value.host_name ==

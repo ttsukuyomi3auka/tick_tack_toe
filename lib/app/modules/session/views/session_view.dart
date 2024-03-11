@@ -76,11 +76,7 @@ class SessionView extends GetView<SessionController> {
                                                         .guest_name !=
                                                     null) {
                                                   sessionController
-                                                      .startSession(
-                                                          sessionController
-                                                              .currentSession
-                                                              .value
-                                                              .id);
+                                                      .startSession();
                                                 } else {
                                                   Get.snackbar("Ошибка",
                                                       "Нет второго игрока");
