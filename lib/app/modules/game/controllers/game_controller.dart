@@ -29,24 +29,29 @@ class GameController extends GetxController {
 
   Future<void> updateFields(int row, int col) async {
     print(2);
-    if (currentSession.value.gameState != GameState.Ongoing) {
-      Get.snackbar("Ошибка", "Game State:${currentSession.value.gameState}",
-          backgroundColor: Colors.red);
-    }
+    isEnd();
     print(3);
     if (board.isEmpty || board['row$row'][col] == 'E') {
       print(4);
       await move(row, col);
-      if (currentSession.value.gameState != GameState.Ongoing) {
-        Get.snackbar("Ошибка", "Game State:${currentSession.value.gameState}",
-            backgroundColor: Colors.red);
-      }
-      changePlayerMove();
-
-      // Обновление значения в ячейке на текущий символ (X или O)
+      isEnd();
       board['row$row'][col] = currentPlayerSymbol.value;
-
       drawXO(row, col);
+      changePlayerMove();
+    }
+  }
+
+  void isEnd() {
+    if (currentSession.value.gameState == GameState.Ongoing) {
+      return;
+    } else if (currentSession.value.gameState == GameState.XWon) {
+      Get.snackbar("Игра окончена", "Игрок X победил!",
+          backgroundColor: Colors.green);
+    } else if (currentSession.value.gameState == GameState.OWon) {
+      Get.snackbar("Игра окончена", "Игрок O победил!",
+          backgroundColor: Colors.green);
+    } else if (currentSession.value.gameState == GameState.Draw) {
+      Get.snackbar("Игра окончена", "Ничья!", backgroundColor: Colors.yellow);
     }
   }
 
