@@ -54,7 +54,7 @@ class GameView extends GetView<GameController> {
                   controller.leaveSession(2);
                 }
               },
-              child: Text("Выйти"),
+              child: const Text("Выйти"),
             ),
             const SizedBox(height: 20),
           ],

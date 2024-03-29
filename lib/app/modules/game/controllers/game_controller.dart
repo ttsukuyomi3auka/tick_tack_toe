@@ -28,11 +28,8 @@ class GameController extends GetxController {
   }
 
   Future<void> updateFields(int row, int col) async {
-    print(2);
     isEnd();
-    print(3);
     if (board.isEmpty || board['row$row'][col] == 'E') {
-      print(4);
       await move(row, col);
       isEnd();
       board['row$row'][col] = currentPlayerSymbol.value;
